@@ -1,0 +1,61 @@
+{
+  "bsonType": "object",
+  "required": ["title", "video_url", "status"],
+  "permission": {
+    "read": true,
+    "create": "auth.uid != null",
+    "update": "auth.uid != null",
+    "delete": "auth.uid != null"
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "title": {
+      "bsonType": "string",
+      "description": "视频标题",
+      "title": "视频标题"
+    },
+    "description": {
+      "bsonType": "string",
+      "description": "视频描述",
+      "title": "视频描述"
+    },
+    "video_url": {
+      "bsonType": "string",
+      "description": "视频链接",
+      "title": "视频链接"
+    },
+    "cover_image": {
+      "bsonType": "string",
+      "description": "封面图片",
+      "title": "封面图片"
+    },
+    "duration": {
+      "bsonType": "int",
+      "description": "视频时长（秒）",
+      "title": "视频时长"
+    },
+    "status": {
+      "bsonType": "string",
+      "enum": ["enabled", "disabled"],
+      "description": "状态：enabled-启用，disabled-禁用",
+      "title": "状态"
+    },
+    "sort_order": {
+      "bsonType": "int",
+      "description": "排序顺序",
+      "title": "排序顺序"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "title": "创建时间"
+    },
+    "update_date": {
+      "bsonType": "timestamp",
+      "description": "更新时间",
+      "title": "更新时间"
+    }
+  }
+}

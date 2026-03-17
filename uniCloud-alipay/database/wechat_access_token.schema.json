@@ -1,0 +1,32 @@
+{
+  "bsonType": "object",
+  "required": ["access_token", "expires_in", "create_time"],
+  "permission": {
+    "read": true,
+    "create": true,
+    "update": true,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "access_token": {
+      "bsonType": "string",
+      "description": "微信access_token",
+      "maxLength": 200
+    },
+    "expires_in": {
+      "bsonType": "int",
+      "description": "access_token有效期（秒）"
+    },
+    "create_time": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    },
+    "update_time": {
+      "bsonType": "timestamp",
+      "description": "更新时间"
+    }
+  }
+} 

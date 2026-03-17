@@ -1,0 +1,86 @@
+{
+  "bsonType": "object",
+  "required": [
+    "user_id",
+    "medication_time",
+    "confirmed_time",
+    "medications"
+  ],
+  "permission": {
+    "read": "auth.uid != null",
+    "create": "auth.uid != null",
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "user_id": {
+      "bsonType": "string",
+      "description": "用户ID",
+      "title": "用户ID"
+    },
+    "medication_time": {
+      "bsonType": "timestamp",
+      "description": "计划用药时间",
+      "title": "计划用药时间"
+    },
+    "confirmed_time": {
+      "bsonType": "timestamp",
+      "description": "确认用药时间",
+      "title": "确认用药时间"
+    },
+    "medications": {
+      "bsonType": "array",
+      "description": "该时间点的用药列表",
+      "title": "用药列表",
+      "items": {
+        "bsonType": "object",
+        "properties": {
+          "medication_plan_id": {
+            "bsonType": "string",
+            "description": "用药计划ID"
+          },
+          "medication_reminder_id": {
+            "bsonType": "string",
+            "description": "用药提醒ID"
+          },
+          "medication_name": {
+            "bsonType": "string",
+            "description": "用药名称"
+          },
+          "dosage_amount": {
+            "bsonType": "number",
+            "description": "用药剂量数量"
+          },
+          "dosage_unit": {
+            "bsonType": "string",
+            "description": "用药剂量单位"
+          },
+          "notes": {
+            "bsonType": "string",
+            "description": "备注"
+          }
+        },
+        "required": [
+          "medication_plan_id",
+          "medication_reminder_id",
+          "medication_name",
+          "dosage_amount",
+          "dosage_unit"
+        ]
+      }
+    },
+    "points_earned": {
+      "bsonType": "number",
+      "description": "该时间点总共获得的积分数",
+      "title": "总积分数"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "title": "创建时间"
+    }
+  }
+}

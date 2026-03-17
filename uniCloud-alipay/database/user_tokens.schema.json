@@ -1,0 +1,48 @@
+{
+  "bsonType": "object",
+  "required": ["user_id", "token", "createTime", "expireTime", "status"],
+  "permission": {
+    "read": false,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "user_id": {
+      "bsonType": "string",
+      "description": "用户ID",
+      "title": "用户ID"
+    },
+    "token": {
+      "bsonType": "string",
+      "description": "JWT token",
+      "title": "JWT token"
+    },
+    "createTime": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "title": "创建时间"
+    },
+    "expireTime": {
+      "bsonType": "timestamp",
+      "description": "过期时间",
+      "title": "过期时间"
+    },
+    "device": {
+      "bsonType": "string",
+      "description": "设备信息",
+      "title": "设备信息",
+      "maxLength": 200
+    },
+    "status": {
+      "bsonType": "string",
+      "description": "token状态：active-有效，revoked-已撤销",
+      "enum": ["active", "revoked"],
+      "default": "active",
+      "title": "状态"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "login",
+  "version": "1.0.0",
+  "description": "用户登录",
+  "main": "index.js",
+  "dependencies": {
+    "auth": "file:../common/auth"
+  },
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/login"
+  },
+  "extensions": {}
+}

@@ -1,0 +1,13 @@
+{
+  "name": "getVideoDetail",
+  "version": "1.0.0",
+  "description": "获取视频详情",
+  "main": "index.js",
+  "dependencies": {},
+  "cloudfunction-config": {
+    "memorySize": 256,
+    "timeout": 10,
+    "triggers": [],
+    "path": "/getVideoDetail"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "getUserPoints",
+  "version": "1.0.0",
+  "description": "获取用户积分",
+  "main": "index.js",
+  "dependencies": {
+  	"auth": "file:../common/auth"
+  },
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/getUserPoints"
+  }
+}

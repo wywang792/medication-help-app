@@ -1,0 +1,66 @@
+{
+  "bsonType": "object",
+  "required": ["phone", "createTime", "updateTime", "role", "status"],
+  "permission": {
+    "read": true,
+    "create": true,
+    "update": true,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "phone": {
+      "bsonType": "string",
+      "description": "手机号",
+      "pattern": "^1[3-9]\\d{9}$"
+    },
+    "password": {
+      "bsonType": "string",
+      "description": "密码（加密存储）",
+      "maxLength": 100
+    },
+    "name": {
+      "bsonType": "string",
+      "description": "昵称",
+      "maxLength": 20
+    },
+    "hospitalNumber": {
+      "bsonType": "string",
+      "description": "住院号",
+      "maxLength": 50
+    },
+    "role": {
+      "bsonType": "string",
+      "description": "用户角色",
+      "enum": ["patient", "medical", "admin"],
+      "default": "patient"
+    },
+    "status": {
+      "bsonType": "string",
+      "description": "用户状态",
+      "enum": ["active", "inactive"],
+      "default": "active"
+    },
+    "subscriptionCount": {
+      "bsonType": "int",
+      "description": "订阅次数",
+      "minimum": 0,
+      "default": 0
+    },
+    "openid": {
+      "bsonType": "string",
+      "description": "微信openid",
+      "maxLength": 100
+    },
+    "createTime": {
+      "bsonType": "timestamp",
+      "description": "创建时间"
+    },
+    "updateTime": {
+      "bsonType": "timestamp",
+      "description": "更新时间"
+    }
+  }
+}

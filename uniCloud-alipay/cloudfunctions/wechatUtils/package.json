@@ -1,0 +1,11 @@
+{
+  "name": "wechatUtils",
+  "version": "1.0.0",
+  "description": "微信工具函数",
+  "main": "index.js",
+  "dependencies": {},
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/wechatUtils"
+  }
+}

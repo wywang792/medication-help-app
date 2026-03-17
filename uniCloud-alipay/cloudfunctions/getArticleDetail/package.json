@@ -1,0 +1,8 @@
+{
+  "name": "getArticleDetail",
+  "version": "1.0.0",
+  "description": "获取文章详情",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {}
+} 

@@ -1,0 +1,6 @@
+{
+  "name": "revokeUserToken",
+  "version": "1.0.0",
+  "description": "撤销用户token的云函数",
+  "main": "index.js"
+}

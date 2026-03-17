@@ -1,0 +1,13 @@
+{
+	"name": "deleteMedicationPlan",
+	"version": "1.0.0",
+	"description": "删除用药计划",
+	"main": "index.js",
+	"dependencies": {
+		"auth": "file:../common/auth"
+	},
+	"cloudfunction-config": {
+		"triggers": [],
+		"path": "/deleteMedicationPlan"
+	}
+}

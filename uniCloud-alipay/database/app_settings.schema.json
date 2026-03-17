@@ -1,0 +1,40 @@
+{
+  "bsonType": "object",
+  "required": ["key", "value"],
+  "permission": {
+    "read": true,
+    "create": false,
+    "update": false,
+    "delete": false
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "key": {
+      "bsonType": "string",
+      "description": "设置键名",
+      "title": "设置键名"
+    },
+    "value": {
+      "bsonType": ["bool", "string", "number"],
+      "description": "设置值",
+      "title": "设置值"
+    },
+    "description": {
+      "bsonType": "string",
+      "description": "设置描述",
+      "title": "设置描述"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "title": "创建时间"
+    },
+    "update_date": {
+      "bsonType": "timestamp",
+      "description": "更新时间",
+      "title": "更新时间"
+    }
+  }
+}

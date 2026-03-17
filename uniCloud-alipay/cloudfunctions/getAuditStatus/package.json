@@ -1,0 +1,11 @@
+{
+  "name": "getAuditStatus",
+  "version": "1.0.0",
+  "description": "获取审核状态",
+  "main": "index.js",
+  "dependencies": {},
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/getAuditStatus"
+  }
+}

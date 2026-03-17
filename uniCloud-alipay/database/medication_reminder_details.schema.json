@@ -1,0 +1,56 @@
+{
+  "bsonType": "object",
+  "required": [
+    "reminder_id",
+    "medication_plan_id",
+    "medication_name",
+    "dosage_amount",
+    "dosage_unit"
+  ],
+  "permission": {
+    "read": "auth.uid != null",
+    "create": "auth.uid != null",
+    "update": "auth.uid != null",
+    "delete": "auth.uid != null"
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "reminder_id": {
+      "bsonType": "string",
+      "description": "用药提醒ID",
+      "title": "用药提醒ID"
+    },
+    "medication_plan_id": {
+      "bsonType": "string",
+      "description": "用药计划ID",
+      "title": "用药计划ID"
+    },
+    "medication_name": {
+      "bsonType": "string",
+      "description": "用药名称",
+      "title": "用药名称"
+    },
+    "dosage_amount": {
+      "bsonType": "number",
+      "description": "用药剂量数量",
+      "title": "用药剂量数量"
+    },
+    "dosage_unit": {
+      "bsonType": "string",
+      "description": "用药剂量单位",
+      "title": "用药剂量单位"
+    },
+    "notes": {
+      "bsonType": "string",
+      "description": "备注",
+      "title": "备注"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "title": "创建时间"
+    }
+  }
+}

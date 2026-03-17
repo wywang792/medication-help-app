@@ -1,0 +1,13 @@
+{
+  "name": "deleteVideo",
+  "version": "1.0.0",
+  "description": "删除视频",
+  "main": "index.js",
+  "dependencies": {},
+  "cloudfunction-config": {
+    "memorySize": 256,
+    "timeout": 10,
+    "triggers": [],
+    "path": "/deleteVideo"
+  }
+}

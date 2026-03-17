@@ -1,0 +1,17 @@
+{
+  "name": "sendSubscriptionMessage",
+  "version": "1.0.0",
+  "description": "发送订阅消息",
+  "main": "index.js",
+  "dependencies": {
+    "auth": "file:../common/auth"
+  },
+  "cloudfunction-config": {
+    "triggers": [{
+			"name": "sendSubscriptionMessage",
+			"type": "timer",
+			"config": "0 */10 * * * *"
+		}],
+    "path": "/sendSubscriptionMessage"
+  }
+}

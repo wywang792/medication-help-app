@@ -1,0 +1,56 @@
+{
+  "bsonType": "object",
+  "required": ["user_id", "medication_time", "status"],
+  "permission": {
+    "read": "auth.uid != null",
+    "create": "auth.uid != null",
+    "update": "auth.uid != null",
+    "delete": "auth.uid != null"
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "user_id": {
+      "bsonType": "string",
+      "description": "用户ID",
+      "title": "用户ID"
+    },
+    "medication_time": {
+      "bsonType": "timestamp",
+      "description": "用药时间",
+      "title": "用药时间"
+    },
+    "status": {
+      "bsonType": "string",
+      "enum": ["pending", "taken", "missed"],
+      "description": "状态：pending-待用药，taken-已用药，missed-未用药",
+      "title": "状态"
+    },
+    "confirmed_time": {
+      "bsonType": "timestamp",
+      "description": "确认用药时间",
+      "title": "确认用药时间"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "title": "创建时间"
+    },
+    "update_date": {
+      "bsonType": "timestamp",
+      "description": "更新时间",
+      "title": "更新时间"
+    },
+    "reminder_sent": {
+      "bsonType": "bool",
+      "description": "是否已发送提醒",
+      "title": "是否已发送提醒"
+    },
+    "reminder_sent_time": {
+      "bsonType": "timestamp",
+      "description": "提醒发送时间",
+      "title": "提醒发送时间"
+    }
+  }
+}

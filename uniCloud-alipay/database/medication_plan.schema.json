@@ -1,0 +1,89 @@
+{
+  "bsonType": "object",
+  "required": [
+    "patient_id",
+    "medication_name",
+    "start_date",
+    "end_date",
+    "time_slots",
+    "status"
+  ],
+  "permission": {
+    "read": "auth.uid != null",
+    "create": "auth.uid != null",
+    "update": "auth.uid != null",
+    "delete": "auth.uid != null"
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "patient_id": {
+      "bsonType": "string",
+      "description": "患者ID",
+      "title": "患者ID"
+    },
+    "medication_name": {
+      "bsonType": "string",
+      "description": "用药名称",
+      "title": "用药名称"
+    },
+    "start_date": {
+      "bsonType": "timestamp",
+      "description": "用药开始日期",
+      "title": "开始日期"
+    },
+    "end_date": {
+      "bsonType": "timestamp",
+      "description": "用药结束日期",
+      "title": "结束日期"
+    },
+    "time_slots": {
+      "bsonType": "array",
+      "description": "用药时间槽",
+      "title": "用药时间槽",
+      "items": {
+        "bsonType": "object",
+        "properties": {
+          "time": {
+            "bsonType": "string",
+            "description": "用药时间（HH:mm格式）"
+          },
+          "dosage_amount": {
+            "bsonType": "number",
+            "description": "用药剂量"
+          },
+          "dosage_unit": {
+            "bsonType": "string",
+            "description": "用药单位"
+          },
+          "notes": {
+            "bsonType": "string",
+            "description": "备注信息"
+          }
+        }
+      }
+    },
+    "status": {
+      "bsonType": "string",
+      "enum": ["active", "completed", "cancelled"],
+      "description": "状态：active-进行中，completed-已完成，cancelled-已取消",
+      "title": "状态"
+    },
+    "created_by": {
+      "bsonType": "string",
+      "description": "创建者ID（医护人员）",
+      "title": "创建者ID"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "title": "创建时间"
+    },
+    "update_date": {
+      "bsonType": "timestamp",
+      "description": "更新时间",
+      "title": "更新时间"
+    }
+  }
+}

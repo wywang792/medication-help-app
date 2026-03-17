@@ -1,0 +1,17 @@
+{
+  "name": "medication-help-app",
+  "version": "1.0.0",
+  "description": "这是一个基于 uniapp 开发的微信小程序，主要用于提醒患者按时服药。项目使用 Vue3 + uniCloud 技术栈。",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "clipboard": "^2.0.11",
+    "dayjs": "^1.11.13",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

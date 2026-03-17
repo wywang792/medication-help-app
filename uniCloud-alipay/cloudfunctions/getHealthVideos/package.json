@@ -1,0 +1,13 @@
+{
+  "name": "getHealthVideos",
+  "version": "1.0.0",
+  "description": "获取健康视频列表",
+  "main": "index.js",
+  "dependencies": {},
+  "cloudfunction-config": {
+    "memorySize": 256,
+    "timeout": 10,
+    "triggers": [],
+    "path": "/getHealthVideos"
+  }
+}

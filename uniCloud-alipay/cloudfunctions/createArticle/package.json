@@ -1,0 +1,8 @@
+{
+  "name": "createArticle",
+  "version": "1.0.0",
+  "description": "创建健康文章",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {}
+} 

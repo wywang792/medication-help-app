@@ -1,0 +1,13 @@
+{
+  "name": "addPatient",
+  "version": "1.0.0",
+  "description": "添加患者",
+  "main": "index.js",
+  "dependencies": {
+		"auth": "file:../common/auth"
+	},
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/addPatient"
+  }
+}

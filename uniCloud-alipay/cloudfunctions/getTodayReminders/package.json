@@ -1,0 +1,13 @@
+{
+  "name": "getTodayReminders",
+  "version": "1.0.0",
+  "description": "获取今日提醒数据",
+  "main": "index.js",
+  "dependencies": {
+  	"auth": "file:../common/auth"
+  },
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/getTodayReminders"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "confirmMedication",
+  "version": "1.0.0",
+  "description": "确认用药",
+  "main": "index.js",
+  "dependencies": {
+  	"auth": "file:../common/auth"
+	},
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/confirmMedication"
+  }
+}

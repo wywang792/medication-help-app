@@ -1,0 +1,66 @@
+{
+  "bsonType": "object",
+  "required": ["name", "points_required", "status"],
+  "permission": {
+    "read": "auth.uid != null",
+    "create": "auth.uid != null && auth.uid.role == 'medical'",
+    "update": "auth.uid != null && auth.uid.role == 'medical'",
+    "delete": "auth.uid != null && auth.uid.role == 'medical'"
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "name": {
+      "bsonType": "string",
+      "description": "商品名称",
+      "title": "商品名称"
+    },
+    "description": {
+      "bsonType": "string",
+      "description": "商品描述",
+      "title": "商品描述"
+    },
+    "image": {
+      "bsonType": "string",
+      "description": "商品图片",
+      "title": "商品图片"
+    },
+    "points_required": {
+      "bsonType": "number",
+      "description": "兑换所需积分",
+      "title": "兑换所需积分"
+    },
+    "category_id": {
+      "bsonType": "number",
+      "description": "商品分类ID",
+      "title": "商品分类ID"
+    },
+    "stock": {
+      "bsonType": "number",
+      "description": "库存数量",
+      "title": "库存数量"
+    },
+    "status": {
+      "bsonType": "string",
+      "enum": ["active", "inactive"],
+      "description": "状态：active-上架，inactive-下架",
+      "title": "状态"
+    },
+    "sort_order": {
+      "bsonType": "number",
+      "description": "排序顺序",
+      "title": "排序顺序"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "title": "创建时间"
+    },
+    "update_date": {
+      "bsonType": "timestamp",
+      "description": "更新时间",
+      "title": "更新时间"
+    }
+  }
+}

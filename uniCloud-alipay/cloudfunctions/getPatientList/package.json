@@ -1,0 +1,13 @@
+{
+  "name": "getPatientList",
+  "version": "1.0.0",
+  "description": "获取患者列表",
+  "main": "index.js",
+  "dependencies": {
+  	"auth": "file:../common/auth"
+  },
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/getPatientList"
+  }
+}

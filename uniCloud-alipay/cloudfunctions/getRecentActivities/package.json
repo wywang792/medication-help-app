@@ -1,0 +1,13 @@
+{
+  "name": "getRecentActivities",
+  "version": "1.0.0",
+  "description": "获取最近活动",
+  "main": "index.js",
+  "dependencies": {
+    "auth": "file:../common/auth"
+  },
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/getRecentActivities"
+  }
+}

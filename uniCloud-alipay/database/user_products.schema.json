@@ -1,0 +1,82 @@
+{
+  "bsonType": "object",
+  "required": [
+    "user_id",
+    "product_id",
+    "product_name",
+    "points_used",
+    "status"
+  ],
+  "permission": {
+    "read": "auth.uid != null",
+    "create": "auth.uid != null",
+    "update": "auth.uid != null",
+    "delete": "auth.uid != null"
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "user_id": {
+      "bsonType": "string",
+      "description": "用户ID",
+      "title": "用户ID"
+    },
+    "product_id": {
+      "bsonType": "string",
+      "description": "商品ID",
+      "title": "商品ID"
+    },
+    "product_name": {
+      "bsonType": "string",
+      "description": "商品名称",
+      "title": "商品名称"
+    },
+    "product_description": {
+      "bsonType": "string",
+      "description": "商品描述",
+      "title": "商品描述"
+    },
+    "product_image": {
+      "bsonType": "string",
+      "description": "商品图片",
+      "title": "商品图片"
+    },
+    "points_used": {
+      "bsonType": "number",
+      "description": "使用的积分",
+      "title": "使用的积分"
+    },
+    "status": {
+      "bsonType": "string",
+      "enum": ["processing", "completed", "cancelled"],
+      "description": "状态：processing-处理中，completed-已完成，cancelled-已取消",
+      "title": "状态"
+    },
+    "exchange_time": {
+      "bsonType": "timestamp",
+      "description": "兑换时间",
+      "title": "兑换时间"
+    },
+    "complete_time": {
+      "bsonType": "timestamp",
+      "description": "完成时间",
+      "title": "完成时间"
+    },
+    "notes": {
+      "bsonType": "string",
+      "description": "备注",
+      "title": "备注"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "title": "创建时间"
+    },
+    "update_date": {
+      "bsonType": "timestamp",
+      "description": "更新时间",
+      "title": "更新时间"
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "bsonType": "object",
+  "required": ["user_id", "points_change", "change_type", "description"],
+  "permission": {
+    "read": "auth.uid != null",
+    "create": "auth.uid != null",
+    "update": "auth.uid != null",
+    "delete": "auth.uid != null"
+  },
+  "properties": {
+    "_id": {
+      "description": "ID，系统自动生成"
+    },
+    "user_id": {
+      "bsonType": "string",
+      "description": "用户ID",
+      "title": "用户ID"
+    },
+    "points_change": {
+      "bsonType": "number",
+      "description": "积分变化（正数为增加，负数为减少）",
+      "title": "积分变化"
+    },
+    "change_type": {
+      "bsonType": "string",
+      "enum": ["earn", "spend", "refund"],
+      "description": "变化类型：earn-获得，spend-消费，refund-退还",
+      "title": "变化类型"
+    },
+    "description": {
+      "bsonType": "string",
+      "description": "变化描述",
+      "title": "变化描述"
+    },
+    "related_id": {
+      "bsonType": "string",
+      "description": "关联ID（如用药提醒ID、商品兑换ID等）",
+      "title": "关联ID"
+    },
+    "related_type": {
+      "bsonType": "string",
+      "description": "关联类型（如medication_reminder、product_exchange等）",
+      "title": "关联类型"
+    },
+    "balance_before": {
+      "bsonType": "number",
+      "description": "变化前积分余额",
+      "title": "变化前积分余额"
+    },
+    "balance_after": {
+      "bsonType": "number",
+      "description": "变化后积分余额",
+      "title": "变化后积分余额"
+    },
+    "create_date": {
+      "bsonType": "timestamp",
+      "description": "创建时间",
+      "title": "创建时间"
+    }
+  }
+}

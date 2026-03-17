@@ -1,0 +1,190 @@
+{
+  "pages": [
+    {
+      "path": "pages/launch/launch",
+      "style": {
+        "navigationBarTitleText": "启动页",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录"
+      }
+    },
+    {
+      "path": "pages/login/reset-password",
+      "style": {
+        "navigationBarTitleText": "重置密码"
+      }
+    },
+    {
+      "path": "pages/register/register",
+      "style": {
+        "navigationBarTitleText": "注册"
+      }
+    },
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "首页",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/article/index",
+      "style": {
+        "navigationBarTitleText": "知识库"
+      }
+    },
+    {
+      "path": "pages/article/detail",
+      "style": {
+        "navigationBarTitleText": "文章详情"
+      }
+    },
+    {
+      "path": "pages/mall/mall",
+      "style": {
+        "navigationBarTitleText": "积分商城"
+      }
+    },
+    {
+      "path": "pages/profile/profile",
+      "style": {
+        "navigationBarTitleText": "我的"
+      }
+    },
+    {
+      "path": "pages/medical/index",
+      "style": {
+        "navigationBarTitleText": "医护工作台"
+      }
+    },
+    {
+      "path": "pages/patient/list",
+      "style": {
+        "navigationBarTitleText": "患者管理"
+      }
+    },
+    {
+      "path": "pages/patient/detail",
+      "style": {
+        "navigationBarTitleText": "患者详情"
+      }
+    },
+    {
+      "path": "pages/patient/add",
+      "style": {
+        "navigationBarTitleText": "添加患者"
+      }
+    },
+    {
+      "path": "pages/patient/edit",
+      "style": {
+        "navigationBarTitleText": "编辑患者"
+      }
+    },
+    {
+      "path": "pages/patient/product",
+      "style": {
+        "navigationBarTitleText": "商品核销"
+      }
+    },
+    {
+      "path": "pages/medication/add",
+      "style": {
+        "navigationBarTitleText": "添加用药"
+      }
+    },
+    {
+      "path": "pages/medication/edit",
+      "style": {
+        "navigationBarTitleText": "编辑用药"
+      }
+    },
+    {
+      "path": "pages/profile/medication-logs",
+      "style": {
+        "navigationBarTitleText": "用药记录"
+      }
+    },
+    {
+      "path": "pages/profile/points-logs",
+      "style": {
+        "navigationBarTitleText": "积分记录"
+      }
+    },
+    {
+      "path": "pages/medical/health-videos",
+      "style": {
+        "navigationBarTitleText": "健康小课堂"
+      }
+    },
+    {
+      "path": "pages/medical/health-videos-edit",
+      "style": {
+        "navigationBarTitleText": "视频编辑"
+      }
+    },
+    {
+      "path": "pages/medical/health-articles",
+      "style": {
+        "navigationBarTitleText": "知识库"
+      }
+    },
+    {
+      "path": "pages/medical/health-articles-edit",
+      "style": {
+        "navigationBarTitleText": "文章编辑"
+      }
+    }
+  ],
+  // "tabBar": {
+  //   "color": "#000000",
+  //   "selectedColor": "#007AFF",
+  //   "borderStyle": "black",
+  //   "backgroundColor": "#ffffff",
+  //   "list": [
+  //     {
+  //       "pagePath": "pages/index/index",
+  //       "iconPath": "static/tabbar/home.png",
+  //       "selectedIconPath": "static/tabbar/home-active.png",
+  //       "text": "首页"
+  //     },
+  // 	{
+  // 	  "pagePath": "pages/article/index",
+  // 	  "iconPath": "static/tabbar/article.png",
+  // 	  "selectedIconPath": "static/tabbar/article-active.png",
+  // 	  "text": "知识库"
+  // 	},
+  //     {
+  //       "pagePath": "pages/mall/mall",
+  //       "iconPath": "static/tabbar/mall.png",
+  //       "selectedIconPath": "static/tabbar/mall-active.png",
+  //       "text": "积分商城"
+  //     },
+  //     {
+  //       "pagePath": "pages/profile/profile",
+  //       "iconPath": "static/tabbar/profile.png",
+  //       "selectedIconPath": "static/tabbar/profile-active.png",
+  //       "text": "我的"
+  //     }
+  //   ]
+  // },
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "用药提醒",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "uniIdRouter": {},
+  "easycom": {
+    "autoscan": true,
+    "custom": {
+      "^u--(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
+      "^up-(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue"
+    }
+  }
+}

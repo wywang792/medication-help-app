@@ -1,0 +1,11 @@
+{
+  "name": "refreshAccessToken",
+  "version": "1.0.0",
+  "description": "定时刷新微信access_token",
+  "main": "index.js",
+  "dependencies": {},
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/refreshAccessToken"
+  }
+}

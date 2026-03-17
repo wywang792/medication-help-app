@@ -1,0 +1,8 @@
+{
+  "name": "updateArticleStatus",
+  "version": "1.0.0",
+  "description": "更新文章状态",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {}
+} 

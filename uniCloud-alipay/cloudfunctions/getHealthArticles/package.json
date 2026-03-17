@@ -1,0 +1,8 @@
+{
+  "name": "getHealthArticles",
+  "version": "1.0.0",
+  "description": "获取健康文章列表",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {}
+} 

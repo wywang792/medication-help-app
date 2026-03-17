@@ -1,0 +1,8 @@
+{
+  "name": "deleteArticle",
+  "version": "1.0.0",
+  "description": "删除健康文章",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {}
+} 

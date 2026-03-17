@@ -1,0 +1,13 @@
+{
+  "name": "getPublicContent",
+  "version": "1.0.0",
+  "description": "获取科普内容的云函数",
+  "main": "index.js",
+  "dependencies": {
+  	"auth": "file:../common/auth"
+  },
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/getPublicContent"
+  }
+}

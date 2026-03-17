@@ -1,0 +1,13 @@
+{
+  "name": "getExchangeHistory",
+  "version": "1.0.0",
+  "description": "获取兑换记录",
+  "main": "index.js",
+  "dependencies": {
+  	"auth": "file:../common/auth"
+  },
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/getExchangeHistory"
+  }
+}

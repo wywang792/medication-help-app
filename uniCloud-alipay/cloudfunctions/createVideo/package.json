@@ -1,0 +1,13 @@
+{
+  "name": "createVideo",
+  "version": "1.0.0",
+  "description": "创建视频",
+  "main": "index.js",
+  "dependencies": {},
+  "cloudfunction-config": {
+    "memorySize": 256,
+    "timeout": 10,
+    "triggers": [],
+    "path": "/createVideo"
+  }
+}

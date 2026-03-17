@@ -1,0 +1,13 @@
+{
+  "name": "addSubscriptionCount",
+  "version": "1.0.0",
+  "description": "增加用户订阅次数",
+  "main": "index.js",
+  "dependencies": {
+    "auth": "file:../common/auth"
+  },
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/addSubscriptionCount"
+  }
+} 
