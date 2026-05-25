@@ -84,7 +84,6 @@ async function getHealthArticles() {
         status: "published",
       })
       .orderBy("publish_date", "desc")
-      .limit(5) // 限制返回5篇文章
       .get();
 
     return articlesResult.data || [];

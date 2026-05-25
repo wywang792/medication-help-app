@@ -56,131 +56,125 @@ exports.main = async (event, context) => {
 
     const plan = planResult.data[0];
 
-    // 先获取该计划的所有提醒详情记录，获取相关的提醒ID
-    const existingDetailsResult = await db
-      .collection("medication_reminder_details")
-      .where({
-        medication_plan_id: plan_id,
-      })
-      .get();
-
-    // 获取所有相关的提醒记录ID
-    const affectedReminderIds = [
-      ...new Set(
-        existingDetailsResult.data.map((detail) => detail.reminder_id)
-      ),
-    ];
-
-    // 删除该计划的所有提醒详情记录
-    const deleteDetailsResult = await db
-      .collection("medication_reminder_details")
-      .where({
-        medication_plan_id: plan_id,
-      })
-      .remove();
-
-    console.log("删除提醒详情记录数量:", deleteDetailsResult.deleted);
-
-    // 获取需要删除的提醒记录ID（如果删除详情后提醒记录没有其他详情了）
-    const deletedReminderIds = [];
-    if (deleteDetailsResult.deleted > 0 && affectedReminderIds.length > 0) {
-      // 检查每个提醒记录是否还有其他详情
-      for (const reminderId of affectedReminderIds) {
-        const remainingDetails = await db
-          .collection("medication_reminder_details")
-          .where({
-            reminder_id: reminderId,
-          })
-          .count();
-
-        if (remainingDetails.total === 0) {
-          deletedReminderIds.push(reminderId);
-        }
-      }
-
-      // 删除空的提醒记录
-      if (deletedReminderIds.length > 0) {
-        await db
-          .collection("medication_reminders")
-          .where({
-            _id: db.command.in(deletedReminderIds),
-          })
-          .remove();
-        console.log("删除空的提醒记录数量:", deletedReminderIds.length);
-      }
-    }
-
     // 更新用药计划的时间槽
     await db.collection("medication_plan").doc(plan_id).update({
       time_slots: time_slots,
       update_date: new Date().getTime(),
     });
 
-    // 重新生成用药提醒详情记录
-    const newReminderDetails = [];
-    const startDate = new Date(plan.start_date);
-    const endDate = new Date(plan.end_date);
-    const currentDate = new Date(startDate);
+    // 新策略：更新计划后仅处理“今天”的详情（未来由定时任务生成）
+    const today = new Date();
+    const todayStart = new Date(today);
+    todayStart.setHours(0, 0, 0, 0);
+    const todayStartTs = todayStart.getTime();
+    const todayEnd = new Date(today);
+    todayEnd.setHours(23, 59, 59, 999);
+    const todayEndTs = todayEnd.getTime();
 
-    // 遍历日期范围内的每一天
-    while (currentDate <= endDate) {
-      // 为每个时间槽创建用药提醒详情
+    let deletedDetailsCount = 0;
+    let deletedRemindersCount = 0;
+    let newDetailsCount = 0;
+
+    if (plan.start_date <= todayEndTs && plan.end_date >= todayStartTs) {
+      // 1) 找出今天受该计划影响的 reminder_id（按患者+时间范围）
+      const todaysRemindersRes = await db
+        .collection("medication_reminders")
+        .where({
+          user_id: plan.patient_id,
+          medication_time: db.command.gte(todayStartTs).and(db.command.lte(todayEndTs)),
+        })
+        .get();
+      const todaysReminders = todaysRemindersRes.data || [];
+      const todaysReminderIds = todaysReminders.map((r) => r._id);
+
+      // 2) 删除“今天”该计划对应的详情（避免旧时间槽残留）
+      if (todaysReminderIds.length > 0) {
+        const delRes = await db
+          .collection("medication_reminder_details")
+          .where({
+            medication_plan_id: plan_id,
+            reminder_id: db.command.in(todaysReminderIds),
+          })
+          .remove();
+        deletedDetailsCount = delRes.deleted || 0;
+      }
+
+      // 3) 对每个今日时间槽补齐提醒/详情（增量）
+      const createdReminderIds = [];
       for (const timeSlot of time_slots) {
-        // 解析时间
         const [hours, minutes] = timeSlot.time.split(":").map(Number);
-        const medicationTime = new Date(
-          currentDate.setHours(hours, minutes, 0, 0)
-        ).getTime();
+        const medicationTime = new Date(todayStartTs);
+        medicationTime.setHours(hours, minutes, 0, 0);
+        const medicationTimeTs = medicationTime.getTime();
 
-        // 检查该时间是否已有用药提醒
         const existingReminder = await db
           .collection("medication_reminders")
           .where({
             user_id: plan.patient_id,
-            medication_time: medicationTime,
+            medication_time: medicationTimeTs,
           })
           .get();
 
         let reminderId;
         if (existingReminder.data.length > 0) {
-          // 如果已存在提醒记录，使用现有的
           reminderId = existingReminder.data[0]._id;
         } else {
-          // 创建新的提醒记录
-          const reminderResult = await db
-            .collection("medication_reminders")
-            .add({
-              user_id: plan.patient_id,
-              medication_time: medicationTime,
-              status: "pending",
-              reminder_sent: false, // 初始化提醒标识
-              create_date: new Date().getTime(),
-              update_date: new Date().getTime(),
-            });
+          const reminderResult = await db.collection("medication_reminders").add({
+            user_id: plan.patient_id,
+            medication_time: medicationTimeTs,
+            status: "pending",
+            reminder_sent: false,
+            create_date: new Date().getTime(),
+            update_date: new Date().getTime(),
+          });
           reminderId = reminderResult.id;
+          createdReminderIds.push(reminderId);
         }
 
-        // 创建提醒详情记录
-        const detailResult = await db
+        const dosageUnit = timeSlot.dosage_unit || "片";
+        const existDetail = await db
           .collection("medication_reminder_details")
-          .add({
+          .where({
             reminder_id: reminderId,
             medication_plan_id: plan_id,
             medication_name: plan.medication_name,
             dosage_amount: timeSlot.dosage_amount,
-            dosage_unit: timeSlot.dosage_unit || "片",
+            dosage_unit: dosageUnit,
+          })
+          .count();
+
+        if (existDetail.total === 0) {
+          await db.collection("medication_reminder_details").add({
+            reminder_id: reminderId,
+            medication_plan_id: plan_id,
+            medication_name: plan.medication_name,
+            dosage_amount: timeSlot.dosage_amount,
+            dosage_unit: dosageUnit,
             notes: timeSlot.notes || "",
             create_date: new Date().getTime(),
           });
-
-        newReminderDetails.push(detailResult.id);
+          newDetailsCount += 1;
+        }
       }
 
-      // 移动到下一天
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
+      // 4) 删除今天“因为本计划删除详情后变空”的 reminders（安全：只删仍无任何详情的）
+      if (todaysReminderIds.length > 0 && deletedDetailsCount > 0) {
+        for (const reminderId of todaysReminderIds) {
+          const remaining = await db
+            .collection("medication_reminder_details")
+            .where({ reminder_id: reminderId })
+            .count();
+          if (remaining.total === 0) {
+            await db.collection("medication_reminders").doc(reminderId).remove();
+            deletedRemindersCount += 1;
+          }
+        }
+      }
 
-    console.log("重新生成的用药提醒详情数量:", newReminderDetails.length);
+      console.log("今日处理完成，删除详情:", deletedDetailsCount, "删除空提醒:", deletedRemindersCount, "新增详情:", newDetailsCount);
+    } else {
+      console.log("今天不在计划日期范围内，仅更新 time_slots，不处理当天 reminders/details。");
+    }
 
     console.log("用药计划修改成功");
 
@@ -190,9 +184,10 @@ exports.main = async (event, context) => {
       data: {
         plan_id: plan_id,
         time_slots_count: time_slots.length,
-        deleted_details_count: deleteDetailsResult.deleted,
-        deleted_reminders_count: deletedReminderIds.length,
-        new_details_count: newReminderDetails.length,
+        // 新策略下仅统计“今天”的变更
+        deleted_details_count: deletedDetailsCount,
+        deleted_reminders_count: deletedRemindersCount,
+        new_details_count: newDetailsCount,
         updated_by: userInfo.userId,
       },
     };

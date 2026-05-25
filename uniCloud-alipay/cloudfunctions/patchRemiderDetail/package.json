@@ -1,0 +1,13 @@
+{
+  "name": "patchRemiderDetail",
+  "version": "1.0.0",
+  "description": "补丁添加用药提醒详情",
+  "main": "index.js",
+  "dependencies": {
+		"auth": "file:../common/auth"
+	},
+  "cloudfunction-config": {
+    "triggers": [],
+    "path": "/patchRemiderDetail"
+  }
+}

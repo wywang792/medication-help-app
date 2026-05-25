@@ -1,0 +1,17 @@
+{
+  "name": "patchRemiderCron",
+  "version": "1.0.0",
+  "description": "每日定时生成用药提醒",
+  "main": "index.js",
+  "dependencies": {
+		"auth": "file:../common/auth"
+	},
+  "cloudfunction-config": {
+    "triggers": [{
+			"name": "patchRemiderCron",
+			"type": "timer",
+			"config": "0 5 0 * * *"
+		}],
+    "path": "/patchRemiderCron"
+  }
+}

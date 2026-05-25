@@ -10,14 +10,12 @@
 
 // 下面示例查询uni-id-users表的所有数据
 
-
-// 1753891200000
-// 1753977599000
-
-const start = new Date(new Date().setHours(0, 0, 0, 0)).getTime();
-const end = new Date(new Date().setHours(23, 59, 59, 999)).getTime();
-		
+// 查询没有对应用药详情的用药提醒（聚合：左连接 + 过滤 details 为空）
+// 返回的 data 长度为数量，data 即这些提醒的列表
 db
-.collection("medication_reminders")
-.orderBy("create_date", "desc")
-.get();
+	    .collection("medication_plan")
+			.where({
+				status: "sdfasdf"
+			})
+			.limit(1000)
+	    .get()

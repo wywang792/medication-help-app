@@ -65,74 +65,85 @@ exports.main = async (event, context) => {
     const planId = planResult.id;
     console.log("用药计划创建成功，计划ID:", planId);
 
-    // 生成用药提醒记录
+    // 新策略：创建计划时只补“今天”的 reminders/details（未来日期由定时任务生成）
     const reminders = [];
     const reminderDetails = [];
-    const startDate = new Date(start_date);
-    const endDate = new Date(end_date);
-    const currentDate = new Date(startDate);
 
-    // 遍历日期范围内的每一天
-    while (currentDate <= endDate) {
-      // 为每个时间槽创建用药提醒
+    const today = new Date();
+    const todayStart = new Date(today);
+    todayStart.setHours(0, 0, 0, 0);
+    const todayStartTs = todayStart.getTime();
+    const todayEnd = new Date(today);
+    todayEnd.setHours(23, 59, 59, 999);
+    const todayEndTs = todayEnd.getTime();
+
+    if (start_date <= todayEndTs && end_date >= todayStartTs) {
+      // 今天在计划日期范围内
       for (const timeSlot of time_slots) {
-        // 解析时间
         const [hours, minutes] = timeSlot.time.split(":").map(Number);
-        const medicationTime = new Date(
-          currentDate.setHours(hours, minutes, 0, 0)
-        ).getTime();
+        const medicationTime = new Date(todayStartTs);
+        medicationTime.setHours(hours, minutes, 0, 0);
+        const medicationTimeTs = medicationTime.getTime();
 
-        // 检查该时间是否已有用药提醒
+        // reminder：存在则复用，不存在则创建
         const existingReminder = await db
           .collection("medication_reminders")
           .where({
             user_id: patient_id,
-            medication_time: medicationTime,
+            medication_time: medicationTimeTs,
           })
           .get();
 
         let reminderId;
         if (existingReminder.data.length > 0) {
-          // 如果已存在提醒记录，使用现有的
           reminderId = existingReminder.data[0]._id;
         } else {
-          // 创建新的提醒记录
-          const reminderResult = await db
-            .collection("medication_reminders")
-            .add({
-              user_id: patient_id,
-              medication_time: medicationTime,
-              status: "pending",
-              reminder_sent: false, // 初始化提醒标识
-              create_date: new Date().getTime(),
-              update_date: new Date().getTime(),
-            });
+          const reminderResult = await db.collection("medication_reminders").add({
+            user_id: patient_id,
+            medication_time: medicationTimeTs,
+            status: "pending",
+            reminder_sent: false,
+            create_date: new Date().getTime(),
+            update_date: new Date().getTime(),
+          });
           reminderId = reminderResult.id;
           reminders.push(reminderId);
         }
 
-        // 创建提醒详情记录
-        const detailResult = await db
+        // detail：做增量去重，避免重复写入
+        const dosageUnit = timeSlot.dosage_unit || "片";
+        const existDetail = await db
           .collection("medication_reminder_details")
-          .add({
+          .where({
             reminder_id: reminderId,
             medication_plan_id: planId,
             medication_name: medication_name,
             dosage_amount: timeSlot.dosage_amount,
-            dosage_unit: timeSlot.dosage_unit || "片",
-            notes: timeSlot.notes || "",
-            create_date: new Date().getTime(),
-          });
+            dosage_unit: dosageUnit,
+          })
+          .count();
 
-        reminderDetails.push(detailResult.id);
+        if (existDetail.total === 0) {
+          const detailResult = await db
+            .collection("medication_reminder_details")
+            .add({
+              reminder_id: reminderId,
+              medication_plan_id: planId,
+              medication_name: medication_name,
+              dosage_amount: timeSlot.dosage_amount,
+              dosage_unit: dosageUnit,
+              notes: timeSlot.notes || "",
+              create_date: new Date().getTime(),
+            });
+          reminderDetails.push(detailResult.id);
+        }
       }
-
-      // 移动到下一天
-      currentDate.setDate(currentDate.getDate() + 1);
+    } else {
+      console.log("今天不在计划日期范围内，不生成当天 reminders/details。");
     }
 
     console.log(
-      "用药添加成功，共创建",
+      "用药添加成功，当天新增",
       reminders.length,
       "个用药提醒，",
       reminderDetails.length,

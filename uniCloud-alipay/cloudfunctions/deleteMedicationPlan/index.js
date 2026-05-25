@@ -49,57 +49,54 @@ exports.main = async (event, context) => {
 
     const plan = planResult.data[0];
 
-    // 先获取该计划的所有提醒详情记录，获取相关的提醒ID
-    const existingDetailsResult = await db
-      .collection("medication_reminder_details")
+    // 新策略：删除计划时仅级联删除“今天”已生成的详情/提醒，避免当天出现多余提醒
+    const today = new Date();
+    const todayStart = new Date(today);
+    todayStart.setHours(0, 0, 0, 0);
+    const todayStartTs = todayStart.getTime();
+    const todayEnd = new Date(today);
+    todayEnd.setHours(23, 59, 59, 999);
+    const todayEndTs = todayEnd.getTime();
+
+    let deleteDetailsCount = 0;
+    let deletedRemindersCount = 0;
+
+    // 找出“今天该患者”的 reminders（这些 reminders 可能包含多个计划的详情）
+    const todaysRemindersRes = await db
+      .collection("medication_reminders")
       .where({
-        medication_plan_id: plan_id,
+        user_id: plan.patient_id,
+        medication_time: db.command.gte(todayStartTs).and(db.command.lte(todayEndTs)),
       })
       .get();
+    const todaysReminders = todaysRemindersRes.data || [];
+    const todaysReminderIds = todaysReminders.map((r) => r._id);
 
-    // 获取所有相关的提醒记录ID
-    const affectedReminderIds = [
-      ...new Set(
-        existingDetailsResult.data.map((detail) => detail.reminder_id)
-      ),
-    ];
+    // 删除“今天”该计划对应的详情
+    if (todaysReminderIds.length > 0) {
+      const delRes = await db
+        .collection("medication_reminder_details")
+        .where({
+          medication_plan_id: plan_id,
+          reminder_id: db.command.in(todaysReminderIds),
+        })
+        .remove();
+      deleteDetailsCount = delRes.deleted || 0;
+    }
 
-    // 删除该计划的所有提醒详情记录
-    const deleteDetailsResult = await db
-      .collection("medication_reminder_details")
-      .where({
-        medication_plan_id: plan_id,
-      })
-      .remove();
+    console.log("删除今日该计划提醒详情数量:", deleteDetailsCount);
 
-    console.log("删除提醒详情记录数量:", deleteDetailsResult.deleted);
-
-    // 获取需要删除的提醒记录ID（如果删除详情后提醒记录没有其他详情了）
-    const deletedReminderIds = [];
-    if (deleteDetailsResult.deleted > 0 && affectedReminderIds.length > 0) {
-      // 检查每个提醒记录是否还有其他详情
-      for (const reminderId of affectedReminderIds) {
-        const remainingDetails = await db
+    // 对每个今日 reminder_id：若已无任何详情，则删除 reminder（安全：避免误删同时间点其他计划）
+    if (deleteDetailsCount > 0 && todaysReminderIds.length > 0) {
+      for (const reminderId of todaysReminderIds) {
+        const remaining = await db
           .collection("medication_reminder_details")
-          .where({
-            reminder_id: reminderId,
-          })
+          .where({ reminder_id: reminderId })
           .count();
-
-        if (remainingDetails.total === 0) {
-          deletedReminderIds.push(reminderId);
+        if (remaining.total === 0) {
+          await db.collection("medication_reminders").doc(reminderId).remove();
+          deletedRemindersCount += 1;
         }
-      }
-
-      // 删除空的提醒记录
-      if (deletedReminderIds.length > 0) {
-        await db
-          .collection("medication_reminders")
-          .where({
-            _id: db.command.in(deletedReminderIds),
-          })
-          .remove();
-        console.log("删除空的提醒记录数量:", deletedReminderIds.length);
       }
     }
 
@@ -113,8 +110,8 @@ exports.main = async (event, context) => {
       message: "用药计划删除成功",
       data: {
         plan_id: plan_id,
-        deleted_details_count: deleteDetailsResult.deleted,
-        deleted_reminders_count: deletedReminderIds.length,
+        deleted_details_count: deleteDetailsCount,
+        deleted_reminders_count: deletedRemindersCount,
         deleted_by: userInfo.userId,
       },
     };
