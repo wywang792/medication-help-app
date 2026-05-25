@@ -337,7 +337,9 @@ async function sendWechatMessage(openid, date4, thing2) {
       data: {
         action: "sendSubscribeMessage",
         openid: openid,
-        template_id: "eW_0cx3QJZyl7Uhn_vdi4o2dn1cj04kt4qCZeajs7hI",
+        template_id:
+          process.env.WECHAT_SUBSCRIBE_TEMPLATE_ID ||
+          "your-subscribe-template-id",
         data: {
           date4: { value: date4 },
           thing2: { value: thing2 },

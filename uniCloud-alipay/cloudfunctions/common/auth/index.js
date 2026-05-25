@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const db = uniCloud.database();
 
 // JWT密钥，实际项目中应该存储在环境变量中
-const JWT_SECRET = "your-jwt-secret-key-2024";
+const JWT_SECRET = process.env.JWT_SECRET || "change-me-in-production";
 
 /**
  * 验证JWT token

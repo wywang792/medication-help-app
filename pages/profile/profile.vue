@@ -114,6 +114,7 @@ import { patientUserAPI } from "../../api/index.js";
 
 const userInfo = ref({});
 const subscribing = ref(false);
+const SUBSCRIBE_TEMPLATE_ID = "your-subscribe-template-id";
 
 // 计算属性：是否已登录
 const isLoggedIn = computed(() => {
@@ -191,10 +192,10 @@ const subscribeNotification = async () => {
   try {
     // 请求订阅消息权限
     const subscribeResult = await uni.requestSubscribeMessage({
-      tmplIds: ['eW_0cx3QJZyl7Uhn_vdi4o2dn1cj04kt4qCZeajs7hI'] // 需要替换为实际的模板ID
+      tmplIds: [SUBSCRIBE_TEMPLATE_ID],
     });
 
-    if (subscribeResult['eW_0cx3QJZyl7Uhn_vdi4o2dn1cj04kt4qCZeajs7hI'] === 'accept') {
+    if (subscribeResult[SUBSCRIBE_TEMPLATE_ID] === "accept") {
       // 用户同意订阅，调用后端API增加订阅次数
       const result = await patientUserAPI.addSubscriptionCount();
       
@@ -213,7 +214,7 @@ const subscribeNotification = async () => {
           icon: "none",
         });
       }
-    } else if (subscribeResult['eW_0cx3QJZyl7Uhn_vdi4o2dn1cj04kt4qCZeajs7hI'] === 'reject') {
+    } else if (subscribeResult[SUBSCRIBE_TEMPLATE_ID] === "reject") {
       uni.showToast({
         title: "您拒绝了订阅，将不会为您进行用药提醒",
         icon: "none",

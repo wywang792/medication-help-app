@@ -48,9 +48,9 @@ exports.main = async (event, context) => {
     // 调用uniCloud短信服务发送验证码
     try {
       const smsResult = await uniCloud.sendSms({
-        appid: "__UNI__391B5C2",
+        appid: process.env.UNI_APP_ID || "__UNI__YOUR_APPID",
         phone: phone,
-        templateId: "36886",   // 测试模板Id  uni_sms_test  36886
+        templateId: process.env.UNI_SMS_TEMPLATE_ID || "your-sms-template-id",
         data: {
           code: code,
 					expMinute: 5

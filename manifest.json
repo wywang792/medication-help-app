@@ -1,6 +1,6 @@
 {
     "name" : "medication-help-app",
-    "appid" : "__UNI__391B5C2",
+    "appid" : "__UNI__YOUR_APPID",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -50,7 +50,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wxe40bfc113c64f85f",
+        "appid" : "wx-your-app-id",
         "setting" : {
             "urlCheck" : false
         },

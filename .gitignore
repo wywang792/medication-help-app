@@ -6,3 +6,9 @@ node_modules
 
 unpackage
 
+.env
+.env.*
+!.env.example
+
+**/node_modules/
+

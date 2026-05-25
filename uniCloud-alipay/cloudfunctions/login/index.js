@@ -6,8 +6,8 @@ const crypto = require("crypto");
 
 // 微信小程序配置
 const WECHAT_CONFIG = {
-  appId: "wxe40bfc113c64f85f",
-  appSecret: "5689b2012d978495dd8da6c785c4fdbd",
+  appId: process.env.WECHAT_APP_ID || "wx-your-app-id",
+  appSecret: process.env.WECHAT_APP_SECRET || "",
 };
 
 exports.main = async (event, context) => {
